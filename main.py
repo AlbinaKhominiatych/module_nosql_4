@@ -36,7 +36,10 @@ class ShoppingCart:
             self.redis_client.hset(key, mapping={'item_id':item_id, 'quantity': quantity})
             print(f"Товар {item_id} додано до кошика")
 
-
+    def remove(self, item_id):
+        key = f'cart:{self.current_user}:{item_id}'
+        self.redis_client.delete(key)
+        print("Товар видалено з кошика!")
 
 cart_app = ShoppingCart()
 if cart_app.register_user('user4', '123'):
