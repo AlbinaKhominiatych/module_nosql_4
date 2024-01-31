@@ -56,6 +56,14 @@ class ShoppingCart:
             print(f"товар {key} видалений")
         print("Кошик очищено")
 
+    def seach_item(self, item_id):
+        key = f'cart:{self.current_user}:{item_id}'
+        item_data = self.redis_client.hgetall(key)
+        if item_data:
+            print("Інформація про товар", item_data)
+        else:
+            print("Такого товару немає!")
+
 cart_app = ShoppingCart()
 if cart_app.register_user('user4', '123'):
     if cart_app.login('user4', '123'):
