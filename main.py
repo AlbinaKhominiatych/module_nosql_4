@@ -28,6 +28,16 @@ class ShoppingCart:
             print("Невірний логін або пароль")
             return False
 
+    def add_item(self, item_id, quantity = 1):
+        key = f'cart:{self.current_user}:{item_id}'
+        if self.redis_client.hexists(key, 'quantity'):
+            self.redis_client.hincrby(key, 'quantity', quantity)
+        else:
+            self.redis_client.hset(key, mapping={'item_id':item_id, 'quantity': quantity})
+            print(f"Товар {item_id} додано до кошика")
+
+
+
 cart_app = ShoppingCart()
 if cart_app.register_user('user4', '123'):
     if cart_app.login('user4', '123'):
