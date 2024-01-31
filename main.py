@@ -64,6 +64,18 @@ class ShoppingCart:
         else:
             print("Такого товару немає!")
 
+    def view_card(self):
+        keys = self.redis_client.keys(f"cart{self.current_user}:*")
+        if not keys:
+            print("Кошик пустий")
+            return []
+        cart_items = []
+        for key in keys:
+            item_data = self.redis_client.hgetall(key)
+            cart_items.append(item_data)
+        print("Вміст кошика: ", cart_items)
+        return  cart_items
+
 
 cart_app = ShoppingCart()
 if cart_app.register_user('user4', '123'):
