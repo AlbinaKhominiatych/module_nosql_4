@@ -41,6 +41,14 @@ class ShoppingCart:
         self.redis_client.delete(key)
         print("Товар видалено з кошика!")
 
+    def update_item_quantity(self, item_id, quantity):
+        key = f'cart:{self.current_user}:{item_id}'
+        if self.redis_client.hexists(key, 'quantity'):
+            self.redis_client.hset(key, 'quantity', quantity)
+            print(f'Кількість товару {item_id} оновлено!')
+        else:
+            print(f'Товар {item_id} не знайдено у кошику!')
+
 cart_app = ShoppingCart()
 if cart_app.register_user('user4', '123'):
     if cart_app.login('user4', '123'):
