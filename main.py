@@ -64,6 +64,7 @@ class ShoppingCart:
         else:
             print("Такого товару немає!")
 
+
 cart_app = ShoppingCart()
 if cart_app.register_user('user4', '123'):
     if cart_app.login('user4', '123'):
