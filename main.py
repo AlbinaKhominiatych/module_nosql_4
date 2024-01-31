@@ -49,6 +49,13 @@ class ShoppingCart:
         else:
             print(f'Товар {item_id} не знайдено у кошику!')
 
+    def clear_item(self):
+        keys = self.redis_client.keys(f"cart{self.current_user}:*")
+        for key in keys:
+            self.redis_client.delete(key)
+            print(f"товар {key} видалений")
+        print("Кошик очищено")
+
 cart_app = ShoppingCart()
 if cart_app.register_user('user4', '123'):
     if cart_app.login('user4', '123'):
